@@ -1,6 +1,11 @@
+import { useSelector } from 'react-redux'
+
 import PostItem from '../PostItem'
+import { RootState } from 'store'
 
 export default function PostList() {
+  const postList = useSelector((state: RootState) => state.blog.postList)
+  console.log('check post list data: ', postList)
   return (
     <div>
       <div className='bg-white py-6 sm:py-8 lg:py-12'>
@@ -12,10 +17,9 @@ export default function PostList() {
             </p>
           </div>
           <div className='grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-2 xl:grid-cols-2 xl:gap-8'>
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
+            {postList.map((post, index) => {
+              return <PostItem key={`post-item-${index}`} post={post} />
+            })}
           </div>
         </div>
       </div>
