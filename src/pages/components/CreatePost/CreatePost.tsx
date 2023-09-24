@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Post } from '../../../types/blog.type'
 import { useDispatch, useSelector } from 'react-redux'
-import { addPost, editPost, cancelEditingPost, finishEditingPost } from 'pages/blogs/blog.reducer'
+import { addPost, cancelEditingPost, finishEditingPost } from 'pages/blogs/blog.slice'
 import { RootState } from '../../../store'
 
 const initialState: Post = {
