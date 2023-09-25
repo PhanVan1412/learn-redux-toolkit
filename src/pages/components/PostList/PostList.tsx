@@ -1,56 +1,31 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { deletePost, editPost } from 'pages/blogs/blog.slice'
-import http from 'utils/http'
+import { useSelector } from 'react-redux'
+import { deletePost, getPostList, editPost } from 'pages/blogs/blog.slice'
 
 import PostItem from '../PostItem'
-import { RootState } from 'store'
+import { RootState, useAppDispatch } from 'store'
 
 // Goi API trong useEffect()
-// Neu goi thanh cong thi minh dispatch action type: "blog/getPostListSuccess"
+// Neu goi thanh cong thi minh dispatch action type: "blog/getPostListSuccesss"
 // Neu goi that bai thi dispatch action type: "blog/getPostListFailed"
 
 export default function PostList() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const postList = useSelector((state: RootState) => state.blog.postList)
 
   useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-    http
-      .get('posts', {
-        signal
-      })
-      .then((response) => {
-        const postListResult = response.data
-        console.log('check post List Result: ' + postListResult)
-        dispatch({
-          type: 'blog/getPostListSuccess',
-          payload: postListResult
-        })
-      })
-      .catch((error) => {
-        if (error.code !== 'ERR_CANCELED') {
-          dispatch({
-            type: 'blog/getPostListFailed',
-            payload: error.message
-          })
-        }
-      })
+    const promise = dispatch(getPostList())
     return () => {
-      controller.abort()
+      promise.abort()
     }
   }, [dispatch])
-
-  console.log('check post list data: ', postList)
 
   const handleDeletePost = (id: string) => {
     dispatch(deletePost(id))
     console.log('delete post with id: ' + id)
   }
-  const handleEditPost = (id: string) => {
-    dispatch(editPost(id))
-    console.log('edit post with id: ' + id)
+  const handleEditPost = (postId: string) => {
+    dispatch(editPost(postId))
   }
   return (
     <div>
