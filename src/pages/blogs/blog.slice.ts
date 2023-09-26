@@ -74,9 +74,9 @@ const blogSlice = createSlice({
           if (post.id === action.payload.id) {
             console.log('update post inline 85: ', action.payload)
             state.postList[index] = action.payload
+            state.editingPost = null
             return true
           }
-          return false
           state.editingPost = null
         })
       })

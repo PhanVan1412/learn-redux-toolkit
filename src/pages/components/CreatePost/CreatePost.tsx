@@ -31,9 +31,10 @@ export default function CreatePost() {
       dispatch(
         updatePost({
           postId: editingPost.id,
-          body: editingPost
+          body: formData
         })
       )
+      console.log('edit post in line 37', editingPost)
     }
     setFormData(initialState)
   }
